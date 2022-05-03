@@ -26,42 +26,38 @@ public class ContinuousQuery {
 
   public static void main(String[] args) throws Exception {
 
-    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,2, args.length))) {
+    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,3, args.length))) {
 
       Random r = new Random();
 
       int scannerSleepMs = Integer.parseInt(env.getTestProperty(TestProps.CI_SCANNER_SLEEP_MS));
 
-      long startPrefix = Long.parseLong(args[0], 16);
-      long endPrefix = Long.parseLong(args[1], 16);
+      long min = Long.parseLong(args[0], 16);
+      min = min << (64 - args[0].length() * 4);
 
-      startPrefix = startPrefix << (64 - args[0].length() * 4);
-      endPrefix = endPrefix << (64 - args[1].length() * 4);
+      long max = Long.parseLong(args[1], 16);
+      max = max << (64 - args[1].length() * 4);
 
-      Preconditions.checkArgument(startPrefix < endPrefix);
+      int prefixLen = Integer.parseInt(args[2]);
+      long suffixMask = -1 >>> prefixLen;
+      long prefixMask = -1 << 64 - prefixLen;
 
-      long startMask = -1L >>> (args[0].length() * 4);
-      long endMask = -1L >>> (args[1].length() * 4);
-
-      System.out.printf("Start Prefix : 0x%016x\n", startPrefix);
-      System.out.printf("Start Mask   : 0x%016x\n", startMask);
-      System.out.printf("End Prefix   : 0x%016x\n", endPrefix);
-      System.out.printf("End Mask     : 0x%016x\n", endMask);
 
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
       Scanner scanner = ContinuousUtil.createScanner(client, env, auths);
 
+
+
       while(true){
-        long startRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
-        startRow = startRow & startMask | startPrefix;
+        long startRow = ContinuousIngest.genLong(min, max, r);
 
         long endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
-        endRow = endRow & endMask | endPrefix;
+        endRow = endRow & suffixMask | startRow & prefixMask;
 
         while(endRow <= startRow) {
           endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
-          endRow = endRow & endMask | endPrefix;
+          endRow = endRow & suffixMask | startRow & prefixMask;
         }
 
         byte[] scanStart = ContinuousIngest.genRow(startRow);
