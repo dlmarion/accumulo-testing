@@ -25,7 +25,7 @@ import org.apache.accumulo.testing.TestProps;
 
 /**
  * Useful utility methods common to the Continuous test suite.
- 
+ */
 final class ContinuousUtil {
   private ContinuousUtil() {}
 
