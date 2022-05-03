@@ -37,8 +37,8 @@ public class ContinuousQuery {
       startPrefix = startPrefix << Long.numberOfLeadingZeros(startPrefix);
       endPrefix = endPrefix << Long.numberOfLeadingZeros(endPrefix);
 
-      long startMask = -1L >> (64 - Long.numberOfTrailingZeros(startPrefix));
-      long endMask = -1L >> (64 - Long.numberOfTrailingZeros(startPrefix));
+      long startMask = -1L >>> (64 - Long.numberOfTrailingZeros(startPrefix));
+      long endMask = -1L >>> (64 - Long.numberOfTrailingZeros(startPrefix));
 
       System.out.printf("Start Prefix : 0x%16x\n", startPrefix);
       System.out.printf("Start Mask   : 0x%16x\n", startMask);
