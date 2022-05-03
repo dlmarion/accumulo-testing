@@ -35,8 +35,8 @@ public class ContinuousQuery {
       long startPrefix = Long.parseLong(args[0], 16);
       long endPrefix = Long.parseLong(args[1], 16);
 
-      startPrefix = startPrefix << Long.numberOfLeadingZeros(startPrefix);
-      endPrefix = endPrefix << Long.numberOfLeadingZeros(endPrefix);
+      startPrefix = startPrefix << (64 - args[0].length() * 4);
+      endPrefix = endPrefix << (64 - args[1].length() * 4);
 
       Preconditions.checkArgument(startPrefix < endPrefix);
 
