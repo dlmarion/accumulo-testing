@@ -40,8 +40,9 @@ public class ContinuousQuery {
 
       int prefixLen = Integer.parseInt(args[2]);
       long suffixMask = -1 >>> prefixLen;
-      long prefixMask = -1 << 64 - prefixLen;
+      long prefixMask = -1 << (64 - prefixLen);
 
+      System.out.printf("prefix len : %d\n", prefixLen);
       System.out.printf("suffix mask : %016x\n", suffixMask);
       System.out.printf("prefix mask : %016x\n", prefixMask);
 
