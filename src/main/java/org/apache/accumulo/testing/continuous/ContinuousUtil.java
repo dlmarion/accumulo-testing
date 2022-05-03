@@ -18,12 +18,14 @@ package org.apache.accumulo.testing.continuous;
 
 import org.apache.accumulo.core.client.AccumuloClient;
 import org.apache.accumulo.core.client.Scanner;
+import org.apache.accumulo.core.client.ScannerBase.ConsistencyLevel;
 import org.apache.accumulo.core.client.TableNotFoundException;
 import org.apache.accumulo.core.security.Authorizations;
+import org.apache.accumulo.testing.TestProps;
 
 /**
  * Useful utility methods common to the Continuous test suite.
- */
+ 
 final class ContinuousUtil {
   private ContinuousUtil() {}
 
@@ -40,12 +42,18 @@ final class ContinuousUtil {
    * @throws TableNotFoundException
    *           If the table does not exist
    */
-  static Scanner createScanner(AccumuloClient client, String table, Authorizations auths)
+  static Scanner createScanner(AccumuloClient client, ContinuousEnv env, Authorizations auths)
       throws TableNotFoundException {
+    String table = env.getAccumuloTableName();
+
+    ConsistencyLevel cLevel = ConsistencyLevel.valueOf(env.getTestProperty(TestProps.CI_SCANNER_CONSISTENCY).toUpperCase());
+
     if (!client.tableOperations().exists(table)) {
       throw new TableNotFoundException(null, table,
           "Consult the README and create the table before starting test processes.");
     }
-    return client.createScanner(table, auths);
+    var scanner = client.createScanner(table, auths);
+    scanner.setConsistencyLevel(cLevel);
+    return scanner;
   }
 }

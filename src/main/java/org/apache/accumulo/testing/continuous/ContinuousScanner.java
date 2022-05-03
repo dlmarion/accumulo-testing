@@ -48,7 +48,7 @@ public class ContinuousScanner {
 
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
-      Scanner scanner = ContinuousUtil.createScanner(client, env.getAccumuloTableName(), auths);
+      Scanner scanner = ContinuousUtil.createScanner(client, env, auths);
 
       int numToScan = Integer.parseInt(env.getTestProperty(TestProps.CI_SCANNER_ENTRIES));
       int scannerSleepMs = Integer.parseInt(env.getTestProperty(TestProps.CI_SCANNER_SLEEP_MS));
