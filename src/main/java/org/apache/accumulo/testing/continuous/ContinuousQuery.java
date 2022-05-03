@@ -40,8 +40,8 @@ public class ContinuousQuery {
 
       Preconditions.checkArgument(startPrefix < endPrefix);
 
-      long startMask = -1L >>> (64 - Long.numberOfTrailingZeros(startPrefix));
-      long endMask = -1L >>> (64 - Long.numberOfTrailingZeros(startMask));
+      long startMask = -1L >>> (args[0].length() * 4);
+      long endMask = -1L >>> (args[1].length() * 4);
 
       System.out.printf("Start Prefix : 0x%016x\n", startPrefix);
       System.out.printf("Start Mask   : 0x%016x\n", startMask);
