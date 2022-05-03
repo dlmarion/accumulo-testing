@@ -11,6 +11,7 @@ import org.apache.hadoop.io.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -24,7 +25,7 @@ public class ContinuousQuery {
 
   public static void main(String[] args) throws Exception {
 
-    try (ContinuousEnv env = new ContinuousEnv(args)) {
+    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,2, args.length))) {
 
       Random r = new Random();
 
