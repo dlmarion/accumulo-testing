@@ -82,7 +82,7 @@ public class ContinuousQuery {
 
         long t2 = System.currentTimeMillis();
 
-        log.debug("SCN {} {} {} {}", t1, new String(scanStart, UTF_8), (t2 - t1), count);
+        log.debug("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
 
         if (scannerSleepMs > 0) {
           sleepUninterruptibly(scannerSleepMs, TimeUnit.MILLISECONDS);
