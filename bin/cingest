@@ -57,6 +57,9 @@ case "$1" in
   batchwalk)
     ci_main="${ci_package}.ContinuousBatchWalker"
     ;;
+  query)
+    ci_main="${ci_package}.ContinuousQuery"
+    ;;
   scan)
     ci_main="${ci_package}.ContinuousScanner"
     ;;
