@@ -1,5 +1,6 @@
 package org.apache.accumulo.testing.continuous;
 
+import com.google.common.base.Preconditions;
 import org.apache.accumulo.core.client.AccumuloClient;
 import org.apache.accumulo.core.client.Scanner;
 import org.apache.accumulo.core.data.Key;
@@ -37,13 +38,15 @@ public class ContinuousQuery {
       startPrefix = startPrefix << Long.numberOfLeadingZeros(startPrefix);
       endPrefix = endPrefix << Long.numberOfLeadingZeros(endPrefix);
 
-      long startMask = -1L >>> (64 - Long.numberOfTrailingZeros(startPrefix));
-      long endMask = -1L >>> (64 - Long.numberOfTrailingZeros(startPrefix));
+      Preconditions.checkArgument(startPrefix < endPrefix);
 
-      System.out.printf("Start Prefix : 0x%16x\n", startPrefix);
-      System.out.printf("Start Mask   : 0x%16x\n", startMask);
-      System.out.printf("End Prefix   : 0x%16x\n", endPrefix);
-      System.out.printf("End Mask     : 0x%16x\n", endMask);
+      long startMask = -1L >>> (64 - Long.numberOfTrailingZeros(startPrefix));
+      long endMask = -1L >>> (64 - Long.numberOfTrailingZeros(startMask));
+
+      System.out.printf("Start Prefix : 0x%016x\n", startPrefix);
+      System.out.printf("Start Mask   : 0x%016x\n", startMask);
+      System.out.printf("End Prefix   : 0x%016x\n", endPrefix);
+      System.out.printf("End Mask     : 0x%016x\n", endMask);
 
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
