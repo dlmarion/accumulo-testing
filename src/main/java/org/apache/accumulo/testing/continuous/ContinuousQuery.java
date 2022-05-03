@@ -42,6 +42,10 @@ public class ContinuousQuery {
       long suffixMask = -1 >>> prefixLen;
       long prefixMask = -1 << 64 - prefixLen;
 
+      System.out.printf("suffix mask : %016x\n", suffixMask);
+      System.out.printf("prefix mask : %016x\n", prefixMask);
+
+
 
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
