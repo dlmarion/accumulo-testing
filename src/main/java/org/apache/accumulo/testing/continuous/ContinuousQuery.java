@@ -12,10 +12,15 @@ import org.apache.hadoop.io.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
@@ -26,61 +31,85 @@ public class ContinuousQuery {
 
   public static void main(String[] args) throws Exception {
 
-    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,3, args.length))) {
+    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,4, args.length))) {
 
       Random r = new Random();
 
-      int scannerSleepMs = Integer.parseInt(env.getTestProperty(TestProps.CI_SCANNER_SLEEP_MS));
+      int scannerSleepMs = 0;
 
-      long min = Long.parseLong(args[0], 16);
-      min = min << (64 - args[0].length() * 4);
+      long min = Long.parseLong(args[0], 16) << (64 - args[0].length() * 4);
 
-      long max = Long.parseLong(args[1], 16);
-      max = max << (64 - args[1].length() * 4);
+      long max = Long.parseLong(args[1], 16) << (64 - args[1].length() * 4);
 
       int prefixLen = Integer.parseInt(args[2]);
       long suffixMask = -1L >>> prefixLen;
       long prefixMask = -1L << (64 - prefixLen);
 
+      int threads = Integer.parseInt(args[3]);
+
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
-      Scanner scanner = ContinuousUtil.createScanner(client, env, auths);
 
-      while(true){
-        long startRow = ContinuousIngest.genLong(min, max, r);
+      ExecutorService executor = Executors.newFixedThreadPool(threads);
 
-        long endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
-        endRow = endRow & suffixMask | startRow & prefixMask;
+      List<Future<?>> futures = new ArrayList<>();
 
-        while(endRow <= startRow) {
-          endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
-          endRow = endRow & suffixMask | startRow & prefixMask;
+      for(int i = 0; i< threads; i++){
+        Runnable runnable = ()->{
+          try(Scanner scanner = ContinuousUtil.createScanner(client, env, auths)) {
+
+            while (true) {
+              long startRow = ContinuousIngest.genLong(min, max, r);
+
+              long endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
+              endRow = endRow & suffixMask | startRow & prefixMask;
+
+              while (endRow <= startRow) {
+                endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
+                endRow = endRow & suffixMask | startRow & prefixMask;
+              }
+
+              byte[] scanStart = ContinuousIngest.genRow(startRow);
+              byte[] scanStop = ContinuousIngest.genRow(endRow);
+
+              scanner.setRange(new Range(new Text(scanStart), new Text(scanStop)));
+
+              int count = 0;
+              Iterator<Map.Entry<Key,Value>> iter = scanner.iterator();
+
+              long t1 = System.currentTimeMillis();
+
+              while (iter.hasNext()) {
+                Map.Entry<Key,Value> entry = iter.next();
+                ContinuousWalk.validate(entry.getKey(), entry.getValue());
+                count++;
+              }
+
+              long t2 = System.currentTimeMillis();
+
+              log.debug("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
+
+              if (scannerSleepMs > 0) {
+                sleepUninterruptibly(scannerSleepMs, TimeUnit.MILLISECONDS);
+              }
+            }
+          }catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+        };
+
+        futures.add(executor.submit(runnable));
+      }
+
+      long waitTime = Math.max(1, 10000 / threads);
+
+      while(true) {
+        for (Future<?> future : futures){
+          future.get(waitTime, TimeUnit.MILLISECONDS);
+          if(future.isDone()) {
+            throw new RuntimeException("Future unexpectedly finished");
+          }
         }
-
-        byte[] scanStart = ContinuousIngest.genRow(startRow);
-        byte[] scanStop = ContinuousIngest.genRow(endRow);
-
-        scanner.setRange(new Range(new Text(scanStart), new Text(scanStop)));
-
-        int count = 0;
-        Iterator<Map.Entry<Key,Value>> iter = scanner.iterator();
-
-        long t1 = System.currentTimeMillis();
-
-        while (iter.hasNext()) {
-          Map.Entry<Key,Value> entry = iter.next();
-          ContinuousWalk.validate(entry.getKey(), entry.getValue());
-          count++;
-        }
-
-        long t2 = System.currentTimeMillis();
-
-        log.debug("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
-
-        if (scannerSleepMs > 0) {
-          sleepUninterruptibly(scannerSleepMs, TimeUnit.MILLISECONDS);
-        }
-
       }
     }
   }
