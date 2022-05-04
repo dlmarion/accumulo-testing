@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -105,7 +106,11 @@ public class ContinuousQuery {
 
       while(true) {
         for (Future<?> future : futures){
-          future.get(waitTime, TimeUnit.MILLISECONDS);
+          try {
+            future.get(waitTime, TimeUnit.MILLISECONDS);
+          } catch (TimeoutException te) {
+            //ignore
+          }
           if(future.isDone()) {
             throw new RuntimeException("Future unexpectedly finished");
           }
