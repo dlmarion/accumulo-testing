@@ -1,0 +1,101 @@
+# The following instance properties are mapped into the containers as
+# accumulo.properties and will be picked up by compactor processes.  Its
+# important that the instance props exactly match those of all other Accumulo
+# processes in the cluster in order for them to be able to communicate with each
+# other.  So if all other processes use ect2-0 as the zookeeper host, we could
+# not use the IP addr here and still authenticate with other proccesses because
+# the values for the prop would not match exactly.  See the comment about
+# hostnames further down.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accumulo-properties
+data:
+  accumulo.properties: |
+    instance.volumes=hdfs://10.0.2.6:8000/accumulo
+    instance.zookeeper.host=10.0.2.6:2181
+    instance.secret=XXX
+    sserver.server.threads.minimum=512
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accumulo-logging
+data:
+  log4j2-service.properties: |
+    status = info
+    dest = err
+    name = AccumuloCompactorLoggingProperties
+    appender.console.type = Console
+    appender.console.name = STDOUT
+    appender.console.target = SYSTEM_OUT
+    appender.console.layout.type = PatternLayout
+    appender.console.layout.pattern = %d{ISO8601} [%-8c{2}] %-5p: %m%n
+    appender.console.filter.threshold.type = ThresholdFilter
+    appender.console.filter.threshold.level = info
+    logger.hadoop.name = org.apache.hadoop
+    logger.hadoop.level = debug
+    logger.zookeeper.name = org.apache.zookeeper
+    logger.zookeeper.level = error
+    logger.accumulo.name = org.apache.accumulo
+    logger.accumulo.level = debug
+    rootLogger.level = info
+    rootLogger.appenderRef.console.ref = STDOUT
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accumulo-scanserver
+  labels:
+    app: accumulo-scanserver
+spec:
+  replicas: 12
+  selector:
+    matchLabels:
+      app: accumulo-scanserver
+  template:
+    metadata:
+      labels:
+        app: accumulo-scanserver
+    spec:
+      hostNetwork: false
+      nodeSelector:
+        agentpool: scanservers
+      containers:
+      - name: accumulo-scanserver
+        image: accumulosst.azurecr.io/sst/accumulo
+        command: ["/bin/bash","-c"]
+        # Since the Kubernetes and Muchos clusters do not share a common DNS,
+        # its very important that sserver processes advertise themselves in
+        # Zookeeper using IP addrs.  In the following command -a $(hostname -I)
+        # accomplishes this.
+        args: ["accumulo sserver -a $(hostname -I)"]
+        ports:
+        - containerPort: 9101
+        resources:
+          requests:
+            cpu: .8
+            memory: "2048Mi"
+          limits:
+            cpu: 1
+            memory: "2048Mi"
+        env:
+        - name: HADOOP_USER_NAME
+          value: hadoop
+        - name: ACCUMULO_JAVA_OPTS
+          value: "-Xmx1g"
+        volumeMounts:
+        - name: "config"
+          mountPath: "/opt/accumulo/conf/accumulo.properties"
+          subPath: "accumulo.properties"
+        - name: "logging"
+          mountPath: "/opt/accumulo/conf/log4j2-service.properties"
+          subPath: "log4j2-service.properties"
+      volumes:
+      - name: "config"
+        configMap:
+          name: "accumulo-properties"
+      - name: "logging"
+        configMap:
+          name: "accumulo-logging"
+
