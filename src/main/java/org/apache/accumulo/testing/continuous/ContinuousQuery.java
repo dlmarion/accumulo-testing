@@ -1,13 +1,11 @@
 package org.apache.accumulo.testing.continuous;
 
-import com.google.common.base.Preconditions;
 import org.apache.accumulo.core.client.AccumuloClient;
 import org.apache.accumulo.core.client.Scanner;
 import org.apache.accumulo.core.data.Key;
 import org.apache.accumulo.core.data.Range;
 import org.apache.accumulo.core.data.Value;
 import org.apache.accumulo.core.security.Authorizations;
-import org.apache.accumulo.testing.TestProps;
 import org.apache.hadoop.io.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +19,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -30,7 +29,19 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class ContinuousQuery {
   private static final Logger log = LoggerFactory.getLogger(ContinuousScanner.class);
 
+  private static class QueryResult {
+    final long time;
+    final int num;
+
+    private QueryResult(long time, int num) {
+      this.time = time;
+      this.num = num;
+    }
+  }
+
   public static void main(String[] args) throws Exception {
+
+
 
     try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,4, args.length))) {
 
@@ -51,9 +62,31 @@ public class ContinuousQuery {
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
 
-      ExecutorService executor = Executors.newFixedThreadPool(threads);
+      ExecutorService executor = Executors.newFixedThreadPool(threads+1);
 
       List<Future<?>> futures = new ArrayList<>();
+
+      LinkedBlockingQueue<QueryResult> times = new LinkedBlockingQueue<>();
+
+      executor.submit(()->{
+        List<QueryResult> fetched = new ArrayList<>();
+
+        while(true){
+          while(fetched.size() < 1000) {
+            fetched.add(times.take());
+          }
+
+          var timeStats = fetched.stream().mapToLong(qr -> qr.time).summaryStatistics();
+          var countStats = fetched.stream().mapToInt(qr -> qr.num).summaryStatistics();
+
+          log.info("STATS count:{} minTime:{} maxTime:{} avgTime:{} minResults:{} maxResults:{} avgResults:{}",
+              timeStats.getCount(), timeStats.getMin(), timeStats.getMax(), timeStats.getAverage(),
+              countStats.getMin(), countStats.getMax(), countStats.getAverage());
+
+          fetched.clear();
+        }
+
+      });
 
       for(int i = 0; i< threads; i++){
         Runnable runnable = ()->{
@@ -89,6 +122,8 @@ public class ContinuousQuery {
               long t2 = System.currentTimeMillis();
 
               log.debug("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
+
+              times.put(new QueryResult(t2-t1, count));
 
               if (scannerSleepMs > 0) {
                 sleepUninterruptibly(scannerSleepMs, TimeUnit.MILLISECONDS);
