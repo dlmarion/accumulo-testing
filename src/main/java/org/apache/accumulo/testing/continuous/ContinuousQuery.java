@@ -82,14 +82,14 @@ public class ContinuousQuery {
 
         while(true){
           while(fetched.size() < 1000) {
-            fetched.add(times.take());
+            var qr = times.take();
+            fetched.add(qr);
+            timeSummaryStatistics.addValue(qr.time);
+            resultsSummaryStatistics.addValue(qr.num);
           }
 
           var timeStats = fetched.stream().mapToLong(qr -> qr.time).summaryStatistics();
           var countStats = fetched.stream().mapToInt(qr -> qr.num).summaryStatistics();
-
-          fetched.stream().forEach(qr -> timeSummaryStatistics.addValue(qr.time));
-          fetched.stream().forEach(qr -> resultsSummaryStatistics.addValue(qr.num));
 
           log.info("STATS count:{} minTime:{} maxTime:{} avgTime:{} minResults:{} maxResults:{} avgResults:{}",
               timeStats.getCount(), timeStats.getMin(), timeStats.getMax(), timeStats.getAverage(),
