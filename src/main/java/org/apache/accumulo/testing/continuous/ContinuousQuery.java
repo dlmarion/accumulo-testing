@@ -6,6 +6,7 @@ import org.apache.accumulo.core.data.Key;
 import org.apache.accumulo.core.data.Range;
 import org.apache.accumulo.core.data.Value;
 import org.apache.accumulo.core.security.Authorizations;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.hadoop.io.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -41,9 +43,12 @@ public class ContinuousQuery {
 
   public static void main(String[] args) throws Exception {
 
+    if(args.length < 5) {
+      System.err.println("Usage : "+ContinuousQuery.class.getSimpleName()+" <min row> <max row> <prefix len> <threads> <total scans>");
+      System.exit(-1);
+    }
 
-
-    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,4, args.length))) {
+    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,5, args.length))) {
 
       Random r = new Random();
 
@@ -68,6 +73,10 @@ public class ContinuousQuery {
 
       LinkedBlockingQueue<QueryResult> times = new LinkedBlockingQueue<>();
 
+      SummaryStatistics timeSummaryStatistics = new SummaryStatistics();
+      SummaryStatistics resultsSummaryStatistics = new SummaryStatistics();
+      
+
       executor.submit(()->{
         List<QueryResult> fetched = new ArrayList<>();
 
@@ -79,6 +88,9 @@ public class ContinuousQuery {
           var timeStats = fetched.stream().mapToLong(qr -> qr.time).summaryStatistics();
           var countStats = fetched.stream().mapToInt(qr -> qr.num).summaryStatistics();
 
+          fetched.stream().forEach(qr -> timeSummaryStatistics.addValue(qr.time));
+          fetched.stream().forEach(qr -> resultsSummaryStatistics.addValue(qr.num));
+
           log.info("STATS count:{} minTime:{} maxTime:{} avgTime:{} minResults:{} maxResults:{} avgResults:{}",
               timeStats.getCount(), timeStats.getMin(), timeStats.getMax(), timeStats.getAverage(),
               countStats.getMin(), countStats.getMax(), countStats.getAverage());
@@ -88,11 +100,15 @@ public class ContinuousQuery {
 
       });
 
+      int totalScans = Integer.parseInt(args[4]);
+
+      AtomicInteger scansStarted = new AtomicInteger(0);
+
       for(int i = 0; i< threads; i++){
         Runnable runnable = ()->{
           try(Scanner scanner = ContinuousUtil.createScanner(client, env, auths)) {
 
-            while (true) {
+            while (scansStarted.getAndIncrement() < totalScans) {
               long startRow = ContinuousIngest.genLong(min, max, r);
 
               long endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
@@ -121,7 +137,7 @@ public class ContinuousQuery {
 
               long t2 = System.currentTimeMillis();
 
-              log.debug("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
+              log.trace("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
 
               times.put(new QueryResult(t2-t1, count));
 
@@ -140,17 +156,22 @@ public class ContinuousQuery {
       long waitTime = Math.max(1, 10000 / threads);
 
       while(true) {
+        boolean allDone = true;
         for (Future<?> future : futures){
           try {
             future.get(waitTime, TimeUnit.MILLISECONDS);
           } catch (TimeoutException te) {
             //ignore
           }
-          if(future.isDone()) {
-            throw new RuntimeException("Future unexpectedly finished");
-          }
+
+          allDone &= future.isDone();
         }
+
+        if(allDone)
+          break;
       }
+
+      log.info("FINAL STATS {} {}", timeSummaryStatistics, resultsSummaryStatistics);
     }
   }
 
