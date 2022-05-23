@@ -172,6 +172,8 @@ public class ContinuousQuery {
       }
 
 
+      executor.shutdownNow();
+
       var tss = timeSummaryStatistics;
       var rss = resultsSummaryStatistics;
 
