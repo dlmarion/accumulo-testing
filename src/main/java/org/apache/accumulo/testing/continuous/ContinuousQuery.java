@@ -171,7 +171,13 @@ public class ContinuousQuery {
           break;
       }
 
-      log.info("FINAL STATS {} {}", timeSummaryStatistics, resultsSummaryStatistics);
+
+      var tss = timeSummaryStatistics;
+      var rss = resultsSummaryStatistics;
+
+      log.info("FINAL STATS count:{} minTime:{} maxTime:{} avgTime:{} stdevTime:{} minResults:{} maxResults:{} avgResults:{} stddevResults:{}",
+      tss.getN(), tss.getMin(), tss.getMax(), tss.getMean(), tss.getStandardDeviation(),
+      rss.getMin(), rss.getMax(), rss.getMean(), rss.getStandardDeviation());
     }
   }
 
