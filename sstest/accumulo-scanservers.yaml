@@ -16,6 +16,9 @@ data:
     instance.zookeeper.host=10.0.2.6:2181
     instance.secret=XXXX
     sserver.server.threads.minimum=512
+    general.micrometer.enabled=true
+    general.micrometer.jvm.metrics.enabled=true
+    general.micrometer.factory=org.apache.accumulo.test.metrics.TestStatsDRegistryFactory
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -83,7 +86,7 @@ spec:
         - name: HADOOP_USER_NAME
           value: hadoop
         - name: ACCUMULO_JAVA_OPTS
-          value: "-Xmx1g"
+          value: "-Xmx1g -Dtest.meter.registry.host=10.0.2.6 -Dtest.meter.registry.port=8125"
         volumeMounts:
         - name: "config"
           mountPath: "/opt/accumulo/conf/accumulo.properties"
