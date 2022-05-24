@@ -1,7 +1,2 @@
-Copied config from cluster to accumulo-testing/conf on dev vm 
-
-scp hadoop@20.22.198.13:/opt/accumulo-testing/sources/accumulo-testing-repo/conf/accumulo-testing.properties .
-scp hadoop@20.22.198.13:/opt/accumulo-testing/accumulo/accumulo-2.1.0-SNAPSHOT/conf/accumulo-client.properties .
-
 
  kubectl logs -l job-name=ssquery
