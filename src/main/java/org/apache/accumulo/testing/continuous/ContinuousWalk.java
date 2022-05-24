@@ -58,8 +58,7 @@ public class ContinuousWalk {
       int sleepTime = Integer.parseInt(env.getTestProperty(TestProps.CI_WALKER_SLEEP_MS));
 
       while (true) {
-        Scanner scanner = ContinuousUtil.createScanner(client, env,
-            env.getRandomAuthorizations());
+        Scanner scanner = ContinuousUtil.createScanner(client, env, env.getRandomAuthorizations());
         String row = findAStartRow(env.getRowMin(), env.getRowMax(), scanner, r);
 
         while (row != null) {

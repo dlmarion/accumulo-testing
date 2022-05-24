@@ -1,18 +1,9 @@
 package org.apache.accumulo.testing.continuous;
 
-import org.apache.accumulo.core.client.AccumuloClient;
-import org.apache.accumulo.core.client.Scanner;
-import org.apache.accumulo.core.data.Key;
-import org.apache.accumulo.core.data.Range;
-import org.apache.accumulo.core.data.Value;
-import org.apache.accumulo.core.security.Authorizations;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.hadoop.io.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +16,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import org.apache.accumulo.core.client.AccumuloClient;
+import org.apache.accumulo.core.client.IteratorSetting;
+import org.apache.accumulo.core.client.Scanner;
+import org.apache.accumulo.core.data.Key;
+import org.apache.accumulo.core.data.Range;
+import org.apache.accumulo.core.data.Value;
+import org.apache.accumulo.core.iterators.user.GrepIterator;
+import org.apache.accumulo.core.security.Authorizations;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.hadoop.io.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ContinuousQuery {
-  private static final Logger log = LoggerFactory.getLogger(ContinuousScanner.class);
+  private static final Logger log = LoggerFactory.getLogger(ContinuousQuery.class);
 
   private static class QueryResult {
     final long time;
@@ -43,31 +44,30 @@ public class ContinuousQuery {
 
   public static void main(String[] args) throws Exception {
 
-    if(args.length < 5) {
-      System.err.println("Usage : "+ContinuousQuery.class.getSimpleName()+" <min row> <max row> <prefix len> <threads> <total scans>");
-      System.exit(-1);
-    }
-
-    try (ContinuousEnv env = new ContinuousEnv(Arrays.copyOfRange(args,5, args.length))) {
+    try (ContinuousEnv env = new ContinuousEnv(args)) {
 
       Random r = new Random();
 
       int scannerSleepMs = 0;
 
-      long min = Long.parseLong(args[0], 16) << (64 - args[0].length() * 4);
+      var props = env.getTestProperties();
 
-      long max = Long.parseLong(args[1], 16) << (64 - args[1].length() * 4);
+      var minStr = props.getProperty("test.ci.query.row.min");
+      long min = Long.parseLong(minStr, 16) << (64 - minStr.length() * 4);
 
-      int prefixLen = Integer.parseInt(args[2]);
+      var maxStr = props.getProperty("test.ci.query.row.max");
+      long max = Long.parseLong(maxStr, 16) << (64 - maxStr.length() * 4);
+
+      int prefixLen = Integer.parseInt(props.getProperty("test.ci.query.prefix.len"));
       long suffixMask = -1L >>> prefixLen;
       long prefixMask = -1L << (64 - prefixLen);
 
-      int threads = Integer.parseInt(args[3]);
+      int threads = Integer.parseInt(props.getProperty("test.ci.query.threads"));
 
       AccumuloClient client = env.getAccumuloClient();
       Authorizations auths = env.getRandomAuthorizations();
 
-      ExecutorService executor = Executors.newFixedThreadPool(threads+1);
+      ExecutorService executor = Executors.newFixedThreadPool(threads + 1);
 
       List<Future<?>> futures = new ArrayList<>();
 
@@ -75,13 +75,12 @@ public class ContinuousQuery {
 
       SummaryStatistics timeSummaryStatistics = new SummaryStatistics();
       SummaryStatistics resultsSummaryStatistics = new SummaryStatistics();
-      
 
-      executor.submit(()->{
+      executor.submit(() -> {
         List<QueryResult> fetched = new ArrayList<>();
 
-        while(true){
-          while(fetched.size() < 1000) {
+        while (true) {
+          while (fetched.size() < 1000) {
             var qr = times.take();
             fetched.add(qr);
             timeSummaryStatistics.addValue(qr.time);
@@ -91,7 +90,8 @@ public class ContinuousQuery {
           var timeStats = fetched.stream().mapToLong(qr -> qr.time).summaryStatistics();
           var countStats = fetched.stream().mapToInt(qr -> qr.num).summaryStatistics();
 
-          log.info("STATS count:{} minTime:{} maxTime:{} avgTime:{} minResults:{} maxResults:{} avgResults:{}",
+          log.info(
+              "STATS count:{} minTime:{} maxTime:{} avgTime:{} minResults:{} maxResults:{} avgResults:{}",
               timeStats.getCount(), timeStats.getMin(), timeStats.getMax(), timeStats.getAverage(),
               countStats.getMin(), countStats.getMax(), countStats.getAverage());
 
@@ -100,13 +100,28 @@ public class ContinuousQuery {
 
       });
 
-      int totalScans = Integer.parseInt(args[4]);
+      int totalScans = Integer.parseInt(props.getProperty("test.ci.query.scans"));
 
       AtomicInteger scansStarted = new AtomicInteger(0);
 
-      for(int i = 0; i< threads; i++){
-        Runnable runnable = ()->{
-          try(Scanner scanner = ContinuousUtil.createScanner(client, env, auths)) {
+      final IteratorSetting grepIter;
+
+      var grepStr = props.getProperty("test.ci.query.grep");
+
+      if (grepStr != null & !grepStr.isBlank()) {
+        grepIter = new IteratorSetting(100, GrepIterator.class);
+        GrepIterator.setTerm(grepIter, grepStr);
+      } else {
+        grepIter = null;
+      }
+
+      for (int i = 0; i < threads; i++) {
+        Runnable runnable = () -> {
+          try (Scanner scanner = ContinuousUtil.createScanner(client, env, auths)) {
+
+            if (grepIter != null) {
+              scanner.addScanIterator(grepIter);
+            }
 
             while (scansStarted.getAndIncrement() < totalScans) {
               long startRow = ContinuousIngest.genLong(min, max, r);
@@ -137,15 +152,16 @@ public class ContinuousQuery {
 
               long t2 = System.currentTimeMillis();
 
-              log.trace("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8), new String(scanStop, UTF_8), (t2 - t1), count);
+              log.trace("SCN {} {} {} {} {}", t1, new String(scanStart, UTF_8),
+                  new String(scanStop, UTF_8), (t2 - t1), count);
 
-              times.put(new QueryResult(t2-t1, count));
+              times.put(new QueryResult(t2 - t1, count));
 
               if (scannerSleepMs > 0) {
                 sleepUninterruptibly(scannerSleepMs, TimeUnit.MILLISECONDS);
               }
             }
-          }catch (Exception e) {
+          } catch (Exception e) {
             throw new RuntimeException(e);
           }
         };
@@ -155,31 +171,31 @@ public class ContinuousQuery {
 
       long waitTime = Math.max(1, 10000 / threads);
 
-      while(true) {
+      while (true) {
         boolean allDone = true;
-        for (Future<?> future : futures){
+        for (Future<?> future : futures) {
           try {
             future.get(waitTime, TimeUnit.MILLISECONDS);
           } catch (TimeoutException te) {
-            //ignore
+            // ignore
           }
 
           allDone &= future.isDone();
         }
 
-        if(allDone)
+        if (allDone)
           break;
       }
-
 
       executor.shutdownNow();
 
       var tss = timeSummaryStatistics;
       var rss = resultsSummaryStatistics;
 
-      log.info("FINAL STATS count:{} minTime:{} maxTime:{} avgTime:{} stdevTime:{} minResults:{} maxResults:{} avgResults:{} stddevResults:{}",
-      tss.getN(), tss.getMin(), tss.getMax(), tss.getMean(), tss.getStandardDeviation(),
-      rss.getMin(), rss.getMax(), rss.getMean(), rss.getStandardDeviation());
+      log.info(
+          "FINAL STATS count:{} minTime:{} maxTime:{} avgTime:{} stdevTime:{} minResults:{} maxResults:{} avgResults:{} stddevResults:{}",
+          tss.getN(), tss.getMin(), tss.getMax(), tss.getMean(), tss.getStandardDeviation(),
+          rss.getMin(), rss.getMax(), rss.getMean(), rss.getStandardDeviation());
     }
   }
 

@@ -113,8 +113,6 @@ public class TestProps {
   public static final String CI_SCANNER_SLEEP_MS = CI_SCANNER + "sleep.ms";
   // Scanner entries
   public static final String CI_SCANNER_ENTRIES = CI_SCANNER + "entries";
-  // Scanner consistency
-  public static final String CI_SCANNER_CONSISTENCY = CI_SCANNER + "consistency";
 
   /** Verify **/
   // Maximum number of mapreduce mappers

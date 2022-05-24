@@ -21,7 +21,6 @@ import org.apache.accumulo.core.client.Scanner;
 import org.apache.accumulo.core.client.ScannerBase.ConsistencyLevel;
 import org.apache.accumulo.core.client.TableNotFoundException;
 import org.apache.accumulo.core.security.Authorizations;
-import org.apache.accumulo.testing.TestProps;
 
 /**
  * Useful utility methods common to the Continuous test suite.
@@ -46,7 +45,8 @@ final class ContinuousUtil {
       throws TableNotFoundException {
     String table = env.getAccumuloTableName();
 
-    ConsistencyLevel cLevel = ConsistencyLevel.valueOf(env.getTestProperty(TestProps.CI_SCANNER_CONSISTENCY).toUpperCase());
+    ConsistencyLevel cLevel = ConsistencyLevel
+        .valueOf(env.getTestProperty("test.ci.query.consistency").toUpperCase());
 
     if (!client.tableOperations().exists(table)) {
       throw new TableNotFoundException(null, table,

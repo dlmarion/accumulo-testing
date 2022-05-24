@@ -24,14 +24,14 @@ export ACCUMULO_HOME="${ACCUMULO_HOME:-/path/to/accumulo}"
 ## Path to Accumulo client properties
 export ACCUMULO_CLIENT_PROPS="$ACCUMULO_HOME/conf/accumulo-client.properties"
 
-if [ ! -d "$ACCUMULO_HOME" ]; then
-  echo "$ACCUMULO_HOME does not exist. Make sure to set ACCUMULO_HOME"
-  exit 1
-fi
-if [ ! -d "$HADOOP_HOME" ]; then
-  echo "$HADOOP_HOME does not exist. Make sure to set HADOOP_HOME"
-  exit 1
-fi
+#if [ ! -d "$ACCUMULO_HOME" ]; then
+#  echo "$ACCUMULO_HOME does not exist. Make sure to set ACCUMULO_HOME"
+#  exit 1
+#fi
+#if [ ! -d "$HADOOP_HOME" ]; then
+#  echo "$HADOOP_HOME does not exist. Make sure to set HADOOP_HOME"
+#  exit 1
+#fi
 
 # Add HADOOP conf directory to CLASSPATH, if set (for defaultFS in core-site.xml, etc.)
 if [[ -n $HADOOP_CONF_DIR ]]; then
@@ -59,8 +59,8 @@ fi
 # Shaded test jar
 # ===============
 # Versions set below will be what is included in the shaded jar
-ACCUMULO_VERSION="$("$ACCUMULO_HOME"/bin/accumulo version | grep -v 'DEBUG')"; export ACCUMULO_VERSION
-HADOOP_VERSION="$(hadoop version | head -n1 | awk '{print $2}')"; export HADOOP_VERSION
+ACCUMULO_VERSION="2.1.0-SNAPSHOT"; export ACCUMULO_VERSION
+HADOOP_VERSION="3.3.1"; export HADOOP_VERSION
 export ZOOKEEPER_VERSION=3.5.9
 # Path to shaded test jar
 at_home=$( cd "$( dirname "$conf_dir" )" && pwd )

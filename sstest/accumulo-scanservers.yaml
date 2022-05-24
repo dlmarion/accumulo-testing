@@ -14,7 +14,7 @@ data:
   accumulo.properties: |
     instance.volumes=hdfs://10.0.2.6:8000/accumulo
     instance.zookeeper.host=10.0.2.6:2181
-    instance.secret=XXX
+    instance.secret=XXXX
     sserver.server.threads.minimum=512
 ---
 apiVersion: v1
