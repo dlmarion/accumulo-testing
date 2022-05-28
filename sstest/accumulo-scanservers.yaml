@@ -1,11 +1,3 @@
-# The following instance properties are mapped into the containers as
-# accumulo.properties and will be picked up by compactor processes.  Its
-# important that the instance props exactly match those of all other Accumulo
-# processes in the cluster in order for them to be able to communicate with each
-# other.  So if all other processes use ect2-0 as the zookeeper host, we could
-# not use the IP addr here and still authenticate with other proccesses because
-# the values for the prop would not match exactly.  See the comment about
-# hostnames further down.
 apiVersion: v1
 kind: ConfigMap
 metadata:
