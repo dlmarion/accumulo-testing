@@ -15,6 +15,9 @@ docker image prune -f
 az acr login -n accumulosst
 docker push accumulosst.azurecr.io/sst/accumulo
 
-kubectl rollout restart deployment/accumulo-scanserver
-
+if kubectl describe deployment accumulo-scanserver; then
+  kubectl rollout restart deployment/accumulo-scanserver
+else
+  kubectl apply -f accumulo-scanservers.yaml
+fi
 
