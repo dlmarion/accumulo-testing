@@ -16,6 +16,7 @@ data:
     instance.zookeeper.host=10.0.2.6:2181
     instance.secret=XXXX
     sserver.server.threads.minimum=512
+    sserver.server.threads.timeout=0
     general.micrometer.enabled=true
     general.micrometer.jvm.metrics.enabled=true
     general.micrometer.factory=org.apache.accumulo.test.metrics.TestStatsDRegistryFactory
@@ -35,13 +36,15 @@ data:
     appender.console.layout.type = PatternLayout
     appender.console.layout.pattern = %d{ISO8601} [%-8c{2}] %-5p: %m%n
     appender.console.filter.threshold.type = ThresholdFilter
-    appender.console.filter.threshold.level = info
+    appender.console.filter.threshold.level = debug
     logger.hadoop.name = org.apache.hadoop
-    logger.hadoop.level = debug
+    logger.hadoop.level = info
     logger.zookeeper.name = org.apache.zookeeper
     logger.zookeeper.level = error
     logger.accumulo.name = org.apache.accumulo
     logger.accumulo.level = debug
+    logger.aaudit.name = org.apache.accumulo.audit
+    logger.aaudit.level = warn
     rootLogger.level = info
     rootLogger.appenderRef.console.ref = STDOUT
 ---
@@ -86,7 +89,7 @@ spec:
         - name: HADOOP_USER_NAME
           value: hadoop
         - name: ACCUMULO_JAVA_OPTS
-          value: "-Xmx1g -Dtest.meter.registry.host=10.0.2.6 -Dtest.meter.registry.port=8125"
+          value: "-Xmx1500m -Dtest.meter.registry.host=10.0.2.6 -Dtest.meter.registry.port=8125"
         volumeMounts:
         - name: "config"
           mountPath: "/opt/accumulo/conf/accumulo.properties"

@@ -126,11 +126,11 @@ public class ContinuousQuery {
             while (scansStarted.getAndIncrement() < totalScans) {
               long startRow = ContinuousIngest.genLong(min, max, r);
 
-              long endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
+              long endRow = ContinuousIngest.genLong(min, max, r);
               endRow = endRow & suffixMask | startRow & prefixMask;
 
               while (endRow <= startRow) {
-                endRow = ContinuousIngest.genLong(env.getRowMin(), env.getRowMax(), r);
+                endRow = ContinuousIngest.genLong(min, max, r);
                 endRow = endRow & suffixMask | startRow & prefixMask;
               }
 
