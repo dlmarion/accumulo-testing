@@ -109,6 +109,8 @@ D830 | 23 | 23 | 33ms | eventual | 721 | 132 | 51ms |19ms | 1ms | 598ms
 
 In these test as the number of scan servers was increased from 12 to 23, there was not a decrease in average time. Investigation showed that maybe this was because datanodes were tapped out.  There were only 3 datanodes and they were all observed to have more than 400% cpu while the test was running against scan servers.  Also noticed in test D824 against the tablet sever that only the datanode colocated with the tserver was running at high load and the tserver was not using all 100% on all cores, maybe the tserver would have done better if it used all three datanode like the scan servers did.  Also noticed the scan server CPU load were not that high, like they were in previous test that burned more scan server and tablet server CPU.
 
+Since these scans were so quick, an attempt to use a small busy timeout was made in D826. However with the datanodes limiting performance, there was no detectable difference in this test other than seeing a lot more busy events.  This was probably caused by all servers looking busy with the datanode contention plus the short timeout.  Would have like to be able to configure the plugin to use a busy timeout of 5ms on the 1st attempt and 33ms on the 2nd, but the current default pluging does not support that.
+
 Since the test seemed constrained by datanodes when scaling up, tried scaling down in D833 and D832 in order to see a relative difference.  If the clusted had had more than 3 data nodes, would have tried increasing the replication of the data in DFS for testing purposes.
 
 # Conclusion
