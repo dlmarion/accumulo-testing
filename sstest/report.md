@@ -37,12 +37,12 @@ So on average each of the 193 threads were repeatedly executing scans that retur
 
 Test | # Scan servers | #initial servers |   busy timeout | scan type | # concurrent | # busy events | avg time | std dev time | min time | max time
  --- | ---------------| ---------------- | -------------- | --------- | ------------ | ------------- | -------- | ------------ | -------- | --------
- D806 | N/A | N/A | N/A | immediate |  193 | 0 | 9060ms | 8142ms | 230ms | 35638ms
- D803 | 12 | 3 | 33ms | eventual |  193 | 93 | 1345ms | 1342ms | 32ms | 5249ms
- D804 | 12 | 1 | 33ms | eventual |  193 | 273 | 456ms | 514ms | 32ms | 3740ms
- D805 | 23 | 1 | 33ms | eventual |  193 | 283 | 338ms | 363ms | 38ms | 3043ms
- D807 | 23 | 3 | 10ms | eventual |  193 | 256 | 291ms | 263ms | 16ms | 1398ms
- D808 | 23 | 23 | 10ms | eventual | 193 | 0 | 228ms | 203ms | 2ms | 993ms
+ [D806](tests/D806) | N/A | N/A | N/A | immediate |  193 | 0 | 9060ms | 8142ms | 230ms | 35638ms
+ [D803](tests/D803) | 12 | 3 | 33ms | eventual |  193 | 93 | 1345ms | 1342ms | 32ms | 5249ms
+ [D804](tests/D804) | 12 | 1 | 33ms | eventual |  193 | 273 | 456ms | 514ms | 32ms | 3740ms
+ [D805](tests/D805) | 23 | 1 | 33ms | eventual |  193 | 283 | 338ms | 363ms | 38ms | 3043ms
+ [D807](tests/D807) | 23 | 3 | 10ms | eventual |  193 | 256 | 291ms | 263ms | 16ms | 1398ms
+ [D808](tests/D808) | 23 | 23 | 10ms | eventual | 193 | 0 | 228ms | 203ms | 2ms | 993ms
 
 Test D806 shows that 193 concurrent scans against a single tablet on a single tablet server takes an average of 9 seconds per scan.  Test D803 uses 12 scan servers and considerably reduces the average scan time from 9 seconds to 1.3 seconds.  However test D803 does not have many busy events, which would cause other scan servers than the initial 3 to be used.  Test D804 lowered the number of initial scan servers, putting more load on that single initial scans server which caused more busy events.   The increase in busy events caused other scan servers to be used, lowering the average scan time to 456ms.  Test D805 increased the number of scan servers, so that when a busy event did occur there was a larger pool of scan servers to choose from, which further decreased the average scan time.  Compare test D807 to D805 and D803, instead of lowering the initial servers it lowered the busy timeout which caused load to shed to other scan servers and resulted in a really good average scan time.  Test D808 set the initial scan servers to 23, yielding the best possible average scan time for this situation.  Test D808 is good for comparison, it shows that test D807 can approach the best possible time using busy timeout without always going to all severs which is terrible for cache utilization.
 
@@ -61,12 +61,12 @@ The following are the different test that were run for this scenario. All concur
 
 Test | # Scan servers | #initial servers |   busy timeout | scan type | # concurrent | # busy events | avg time | std dev time | min time | max time
  --- | ---------------| ---------------- | -------------- | --------- | ------------ | ------------- | -------- | ------------ | -------- | --------
-D816 | N/A | N/A | N/A | immediate | 193 | 0 | 3203ms | 427ms | 2391ms | 72960ms
-D815 | 12 | 3 | 33ms | eventual |  193 | 1022 | 218ms | 168ms | 32ms | 983ms
-D811 | 23 | 3 | 33ms | eventual |  193 | 954 | 160ms | 124ms | 36ms | 886ms
-D812 | 23 | 3 | 10ms | eventual |  193 | 924 | 146ms | 133ms | 12ms | 926ms
-D813 | 23 | 23 | 33ms | eventual |  193 | 21 | 138ms | 133ms | 2ms | 729ms
-D814 | 23 | 12 | 33ms | eventual |  193 | 234 | 207ms | 185ms | 3ms | 1167ms
+[D816](tests/D816) | N/A | N/A | N/A | immediate | 193 | 0 | 3203ms | 427ms | 2391ms | 72960ms
+[D815](tests/D815) | 12 | 3 | 33ms | eventual |  193 | 1022 | 218ms | 168ms | 32ms | 983ms
+[D811](tests/D811) | 23 | 3 | 33ms | eventual |  193 | 954 | 160ms | 124ms | 36ms | 886ms
+[D812](tests/D812) | 23 | 3 | 10ms | eventual |  193 | 924 | 146ms | 133ms | 12ms | 926ms
+[D813](tests/D813) | 23 | 23 | 33ms | eventual |  193 | 21 | 138ms | 133ms | 2ms | 729ms
+[D814](tests/D814) | 23 | 12 | 33ms | eventual |  193 | 234 | 207ms | 185ms | 3ms | 1167ms
 
 Test D813 represents the best possible time using 23 scan servers.  Test D811 and D12 compare very well to D813 while using a small set of initial servers.  All test are less than 1/10th of the time D816 which ran against the tablet server, this is the result of having so many more cores available.
 
@@ -81,11 +81,11 @@ The following are the different test that were run for this scenario.
 
 Test | # Scan servers | #initial servers |   busy timeout | scan type | # concurrent | # busy events | avg time | std dev time | min time | max time
  --- | ---------------| ---------------- | -------------- | --------- | ------------ | ------------- | -------- | ------------ | -------- | --------
-D821 |  N/A | N/A | N/A | immediate | 193 | 0 | 4670ms | 4295ms | 5ms | 21248ms
-D817 | 12 | 3 | 33ms | eventual | 193 | 1656 | 589ms | 470ms | 14ms | 2762ms
-D818 | 23 | 3 | 33ms | eventual | 193 | 763 | 439ms | 386ms | 4ms | 2429ms
-D819 | 23 | 1 | 33ms | eventual | 193 | 1509 | 391ms | 317ms | 20ms | 1669ms 
-D820 | 23 | 23 | 33ms | eventual | 193 | 48 | 348ms | 311ms | 5ms | 1484ms
+[D821](tests/D821) |  N/A | N/A | N/A | immediate | 193 | 0 | 4670ms | 4295ms | 5ms | 21248ms
+[D817](tests/D817) | 12 | 3 | 33ms | eventual | 193 | 1656 | 589ms | 470ms | 14ms | 2762ms
+[D818](tests/D818) | 23 | 3 | 33ms | eventual | 193 | 763 | 439ms | 386ms | 4ms | 2429ms
+[D819](tests/D819) | 23 | 1 | 33ms | eventual | 193 | 1509 | 391ms | 317ms | 20ms | 1669ms 
+[D820](tests/D820) | 23 | 23 | 33ms | eventual | 193 | 48 | 348ms | 311ms | 5ms | 1484ms
 
 With multiple tablets, each tablet will have a different set of initial scan servers which spreads the initial load more than when everything goes against a single tablet.  Test D819 has initial severs configured to 1, so each of the 5 tablets will hash to one of the 23 servers. If all 5 tablets hash to different servers, then the load on those 5 needs to reach a threshold where busy events occur. For this level of concurrency the 5 initial severs in test D819 reach that threshold sooner than the 5x3 initial severs in D818.  D819 compares well to D820 which is the best possible time.
 
@@ -100,12 +100,12 @@ This set of test ran a lot of concurrent small scans against a single tablet.  T
 
 Test | # Scan servers | #initial servers |   busy timeout | scan type | # concurrent | # busy events | avg time | std dev time | min time | max time
  --- | ---------------| ---------------- | -------------- | --------- | ------------ | ------------- | -------- | ------------ | -------- | --------
-D824 |  N/A | N/A | N/A | immediate | 721 | 0 | 548ms | 37ms | 370ms | 880ms
-D833 | 3 | 1 | 33ms | eventual | 721 | 2645 | 92ms | 39ms | 37ms | 790ms
-D832 | 6 | 1 | 33ms | eventual | 721 | 2052 | 60ms | 23ms | 38ms | 648ms
-D825 | 12 | 3 | 33ms | eventual | 721 | 1621 | 53ms | 22ms | 28ms | 687ms
-D826 | 12 | 3 | 5ms | eventual | 721 | 5919 | 53ms | 30ms | 14ms | 1008ms
-D830 | 23 | 23 | 33ms | eventual | 721 | 132 | 51ms |19ms | 1ms | 598ms
+[D824](tests/D824) |  N/A | N/A | N/A | immediate | 721 | 0 | 548ms | 37ms | 370ms | 880ms
+[D833](tests/D833) | 3 | 1 | 33ms | eventual | 721 | 2645 | 92ms | 39ms | 37ms | 790ms
+[D832](tests/D832) | 6 | 1 | 33ms | eventual | 721 | 2052 | 60ms | 23ms | 38ms | 648ms
+[D825](tests/D825) | 12 | 3 | 33ms | eventual | 721 | 1621 | 53ms | 22ms | 28ms | 687ms
+[D826](tests/D826) | 12 | 3 | 5ms | eventual | 721 | 5919 | 53ms | 30ms | 14ms | 1008ms
+[D830](tests/D830) | 23 | 23 | 33ms | eventual | 721 | 132 | 51ms |19ms | 1ms | 598ms
 
 In these test as the number of scan servers was increased from 12 to 23, there was not a decrease in average time. Investigation showed that maybe this was because datanodes were tapped out.  There were only 3 datanodes and they were all observed to have more than 400% cpu while the test was running against scan servers.  Also noticed in test D824 against the tablet sever that only the datanode colocated with the tserver was running at high load and the tserver was not using all 100% on all cores, maybe the tserver would have done better if it used all three datanode like the scan servers did.  Also noticed the scan server CPU load were not that high, like they were in previous test that burned more scan server and tablet server CPU.
 
