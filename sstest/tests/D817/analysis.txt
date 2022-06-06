@@ -1,0 +1,213 @@
+start scan counts
+
+    422 10.1.0.159:9996
+    152 10.1.0.181:9996
+    214 10.1.0.223:9996
+    149 10.1.0.58:9996
+    283 10.1.0.9:9996
+    440 10.1.1.102:9996
+    451 10.1.1.145:9996
+    260 10.1.2.159:9996
+    121 10.1.2.190:9996
+    136 10.1.2.244:9996
+    362 10.1.2.99:9996
+    305 10.1.3.21:9996
+
+continue scan counts
+
+     19 10.1.0.159:9996
+     15 10.1.0.181:9996
+     17 10.1.0.223:9996
+     11 10.1.0.58:9996
+     22 10.1.0.9:9996
+     17 10.1.1.102:9996
+     11 10.1.1.145:9996
+     13 10.1.2.159:9996
+     11 10.1.2.190:9996
+     11 10.1.2.244:9996
+     15 10.1.2.99:9996
+      9 10.1.3.21:9996
+
+Connection stats
+
+      1 ThriftTransportPool] DEBUG: Set thrift transport pool idle time to 3000ms
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.4:9997
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.5:9997
+     24 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.159:9996
+     55 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.181:9996
+     50 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.223:9996
+     56 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.58:9996
+     43 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.9:9996
+     25 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.1.102:9996
+     22 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.1.145:9996
+     42 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.159:9996
+     51 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.190:9996
+     49 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.244:9996
+     28 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.99:9996
+     42 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.3.21:9996
+      2 ThriftTransportPool] TRACE: Using existing connection to 10.0.2.5:9997
+      2 ThriftTransportPool] TRACE: Using existing connection to 10.0.2.5:9997 (120000)
+    417 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.159:9996
+    417 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.159:9996 (120000)
+    112 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.181:9996
+    112 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.181:9996 (120000)
+    181 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.223:9996
+    181 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.223:9996 (120000)
+    104 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.58:9996
+    104 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.58:9996 (120000)
+    262 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.9:9996
+    262 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.9:9996 (120000)
+    432 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.102:9996
+    432 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.102:9996 (120000)
+    440 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.145:9996
+    440 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.145:9996 (120000)
+    231 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.159:9996
+    231 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.159:9996 (120000)
+     81 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.190:9996
+     81 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.190:9996 (120000)
+     98 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.244:9996
+     98 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.244:9996 (120000)
+    349 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.99:9996
+    349 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.99:9996 (120000)
+    272 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.21:9996
+    272 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.21:9996 (120000)
+      1 Returned connection 10.0.2.4:9997 (120000) ioCount
+      3 Returned connection 10.0.2.5:9997 (120000) ioCount
+    441 Returned connection 10.1.0.159:9996 (120000) ioCount
+    167 Returned connection 10.1.0.181:9996 (120000) ioCount
+    231 Returned connection 10.1.0.223:9996 (120000) ioCount
+    160 Returned connection 10.1.0.58:9996 (120000) ioCount
+    305 Returned connection 10.1.0.9:9996 (120000) ioCount
+    457 Returned connection 10.1.1.102:9996 (120000) ioCount
+    462 Returned connection 10.1.1.145:9996 (120000) ioCount
+    273 Returned connection 10.1.2.159:9996 (120000) ioCount
+    132 Returned connection 10.1.2.190:9996 (120000) ioCount
+    147 Returned connection 10.1.2.244:9996 (120000) ioCount
+    377 Returned connection 10.1.2.99:9996 (120000) ioCount
+    314 Returned connection 10.1.3.21:9996 (120000) ioCount
+
+Scan server to tablet stats
+
+    117 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.033S
+      9 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.264S
+     25 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.264S
+     13 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.264S
+     18 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.033S
+      3 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.264S
+     25 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.264S
+     16 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.264S
+     18 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.264S
+     21 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.264S
+     19 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.264S
+    111 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.264S
+     85 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;666666666666667;6000000000000009 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.264S
+     31 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.033S
+      2 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.264S
+     28 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.264S
+     40 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.264S
+     37 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.264S
+    175 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.033S
+      7 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.264S
+    183 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.264S
+    192 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.033S
+      6 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.264S
+     32 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.264S
+     31 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.264S
+     25 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.033S
+      6 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.264S
+     32 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.264S
+     33 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;6cccccccccccccd7;666666666666667 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.264S
+     24 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.264S
+     23 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.264S
+     32 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.033S
+      2 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.264S
+     34 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.264S
+     35 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.264S
+    183 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.264S
+    174 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.264S
+    172 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.264S
+     28 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+      8 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.264S
+     30 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.264S
+     28 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.264S
+     25 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.033S
+      3 For tablet 1;733333333333333e;6cccccccccccccd7 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.264S
+    156 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.033S
+      2 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.264S
+     25 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+      6 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.264S
+     30 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.264S
+     36 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.033S
+      7 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.264S
+     34 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.033S
+      2 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.264S
+     22 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.264S
+     37 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.033S
+      3 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.264S
+     22 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.033S
+      2 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.264S
+     16 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+      3 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.264S
+     33 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.264S
+    169 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.033S
+      8 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.264S
+    134 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.264S
+     84 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.033S
+      2 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.159:9996 delay:PT0S busyTimeout:PT0.264S
+     50 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+      5 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.264S
+     68 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.033S
+      4 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.223:9996 delay:PT0S busyTimeout:PT0.264S
+      8 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.033S
+      8 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.9:9996 delay:PT0S busyTimeout:PT0.033S
+     16 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.1.102:9996 delay:PT0S busyTimeout:PT0.033S
+     12 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.033S
+      3 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.1.145:9996 delay:PT0S busyTimeout:PT0.264S
+     10 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.159:9996 delay:PT0S busyTimeout:PT0.264S
+      7 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.264S
+      9 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.033S
+      3 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.244:9996 delay:PT0S busyTimeout:PT0.264S
+      7 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.99:9996 delay:PT0S busyTimeout:PT0.264S
+     11 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.033S
+
+Busy counts
+
+   1656    9936  145728
+
+FINAL STATS
+
+2022-06-05T20:49:36,111 [testing.continuous.ContinuousQuery] INFO : FINAL STATS count:1000 minTime:14.0 maxTime:2762.0 avgTime:589.05 stdevTime:470.3051439527624 minResults:0.0 maxResults:2861.0 avgResults:701.3589999999998 stddevResults:581.511261684988

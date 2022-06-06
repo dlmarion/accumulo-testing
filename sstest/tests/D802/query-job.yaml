@@ -11,7 +11,6 @@ data:
     auth.token=secret
     scan.server.dispatcher.opts.maxDepth=1
     scan.server.dispatcher.opts.initialServers=3
-    scan.server.dispatcher.opts.initialBusyTimeout=PT0.033S
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -23,12 +22,12 @@ data:
     test.ci.common.accumulo.table=ci
     test.ci.ingest.row.min=0
     test.ci.ingest.row.max=9223372036854775807
-    test.ci.query.consistency=immediate
+    test.ci.query.consistency=eventual
     test.ci.query.row.min=733333333333333e
     test.ci.query.row.max=79999999999999a5
     test.ci.query.prefix.len=4
-    test.ci.query.threads=12
-    test.ci.query.scans=80000
+    test.ci.query.threads=10
+    test.ci.query.scans=40000
     test.ci.query.grep=def
 ---
 apiVersion: v1
@@ -80,8 +79,8 @@ kind: Job
 metadata:
   name: ssquery
 spec:
-  parallelism: 16
-  completions: 16
+  parallelism: 20
+  completions: 20
   backoffLimit: 4
   template:
     spec:
@@ -95,10 +94,10 @@ spec:
         args: ["cingest","query"]
         resources:
           requests:
-            cpu: 3
+            cpu: .25
             memory: "1024Mi"
           limits:
-            cpu: 3
+            cpu: 1
             memory: "1024Mi"
         volumeMounts:
         - name: "config"

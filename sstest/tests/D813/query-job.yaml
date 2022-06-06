@@ -10,7 +10,7 @@ data:
     auth.principal=root
     auth.token=secret
     scan.server.dispatcher.opts.maxDepth=1
-    scan.server.dispatcher.opts.initialServers=3
+    scan.server.dispatcher.opts.initialServers=23
     scan.server.dispatcher.opts.initialBusyTimeout=PT0.033S
 ---
 apiVersion: v1
@@ -23,7 +23,7 @@ data:
     test.ci.common.accumulo.table=ci
     test.ci.ingest.row.min=0
     test.ci.ingest.row.max=9223372036854775807
-    test.ci.query.consistency=immediate
+    test.ci.query.consistency=eventual
     test.ci.query.row.min=733333333333333e
     test.ci.query.row.max=79999999999999a5
     test.ci.query.prefix.len=4

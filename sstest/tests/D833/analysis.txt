@@ -1,0 +1,47 @@
+start scan counts
+
+    880 10.1.0.181:9996
+   2874 10.1.0.58:9996
+    893 10.1.2.190:9996
+
+continue scan counts
+
+
+Connection stats
+
+      1 ThriftTransportPool] DEBUG: Set thrift transport pool idle time to 3000ms
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.4:9997
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.5:9997
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.181:9996
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.58:9996
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.190:9996
+    879 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.181:9996
+    879 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.181:9996 (120000)
+   2873 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.58:9996
+   2873 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.58:9996 (120000)
+    892 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.190:9996
+    892 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.190:9996 (120000)
+      1 Returned connection 10.0.2.4:9997 (120000) ioCount
+      1 Returned connection 10.0.2.5:9997 (120000) ioCount
+    880 Returned connection 10.1.0.181:9996 (120000) ioCount
+   2874 Returned connection 10.1.0.58:9996 (120000) ioCount
+    893 Returned connection 10.1.2.190:9996 (120000) ioCount
+
+Scan server to tablet stats
+
+    766 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+    112 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.264S
+   2778 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.033S
+     96 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.264S
+    785 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+    107 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.264S
+      2 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.033S
+      1 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.033S
+
+Busy counts
+
+   2645   15870  232760
+
+FINAL STATS
+
+2022-06-06T18:47:42,619 [testing.continuous.ContinuousQuery] INFO : FINAL STATS count:2000 minTime:37.0 maxTime:790.0 avgTime:91.70449999999998 stdevTime:39.246634618963924 minResults:0.0 maxResults:716.0 avgResults:176.56949999999992 stddevResults:163.25468819105373

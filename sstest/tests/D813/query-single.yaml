@@ -10,7 +10,7 @@ data:
     auth.principal=root
     auth.token=secret
     scan.server.dispatcher.opts.maxDepth=1
-    scan.server.dispatcher.opts.initialServers=3
+    scan.server.dispatcher.opts.initialServers=23
     scan.server.dispatcher.opts.initialBusyTimeout=PT0.033S
 ---
 apiVersion: v1
@@ -23,12 +23,12 @@ data:
     test.ci.common.accumulo.table=ci
     test.ci.ingest.row.min=0
     test.ci.ingest.row.max=9223372036854775807
-    test.ci.query.consistency=immediate
+    test.ci.query.consistency=eventual
     test.ci.query.row.min=733333333333333e
     test.ci.query.row.max=79999999999999a5
     test.ci.query.prefix.len=4
-    test.ci.query.threads=12
-    test.ci.query.scans=80000
+    test.ci.query.threads=1
+    test.ci.query.scans=1000
     test.ci.query.grep=def
 ---
 apiVersion: v1
@@ -48,12 +48,18 @@ data:
     appender.console.layout.type = PatternLayout
     appender.console.layout.pattern = %d{ISO8601} [%c{3}] %-5p: %m%n
 
-    loggers = accumulotesting, accumulo, hadooptest, hadoopmapred, hadooputil, zookeepertest, curatortest, ciq
+    loggers = accumulotesting, accumulo, hadooptest, hadoopmapred, hadooputil, zookeepertest, curatortest, ciq, aclient, acore
     logger.accumulotesting.name = org.apache.accumulo.testing
     logger.accumulotesting.level = DEBUG
 
     logger.accumulo.name = org.apache.accumulo
     logger.accumulo.level = WARN
+
+    logger.acore.name = org.apache.accumulo.core
+    logger.acore.level = DEBUG
+
+    logger.aclient.name = org.apache.accumulo.core.clientImpl
+    logger.aclient.level = TRACE
 
     logger.hadooptest.name = org.apache.hadoop
     logger.hadooptest.level = WARN
@@ -69,7 +75,7 @@ data:
     logger.curatortest.level = ERROR
 
     logger.ciq.name = org.apache.accumulo.testing.continuous.ContinuousQuery
-    logger.ciq.level = DEBUG
+    logger.ciq.level = TRACE
 
     rootLogger.level = info
     rootLogger.appenderRefs = stderr
@@ -78,10 +84,10 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ssquery
+  name: ssquery-single
 spec:
-  parallelism: 16
-  completions: 16
+  parallelism: 1
+  completions: 1
   backoffLimit: 4
   template:
     spec:
@@ -89,16 +95,16 @@ spec:
         agentpool: scanpool
       restartPolicy: Never
       containers:
-      - name: ssquery
+      - name: ssquery-single
         image: accumulosst.azurecr.io/sst/accumulo-testing
         command: ["/opt/at/bin/docker-entry"]
         args: ["cingest","query"]
         resources:
           requests:
-            cpu: 3
+            cpu: .25
             memory: "1024Mi"
           limits:
-            cpu: 3
+            cpu: 1
             memory: "1024Mi"
         volumeMounts:
         - name: "config"

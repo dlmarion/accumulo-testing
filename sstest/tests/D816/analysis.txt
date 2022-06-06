@@ -1,0 +1,30 @@
+start scan counts
+
+   1000 10.0.2.7:9997
+
+continue scan counts
+
+   2730 10.0.2.7:9997
+
+Connection stats
+
+      1 ThriftTransportPool] DEBUG: Set thrift transport pool idle time to 3000ms
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.4:9997
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.5:9997
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.7:9997
+   3729 ThriftTransportPool] TRACE: Using existing connection to 10.0.2.7:9997
+   3729 ThriftTransportPool] TRACE: Using existing connection to 10.0.2.7:9997 (120000)
+      1 Returned connection 10.0.2.4:9997 (120000) ioCount
+      1 Returned connection 10.0.2.5:9997 (120000) ioCount
+   3730 Returned connection 10.0.2.7:9997 (120000) ioCount
+
+Scan server to tablet stats
+
+
+Busy counts
+
+      0       0       0
+
+FINAL STATS
+
+2022-06-05T06:57:46,129 [testing.continuous.ContinuousQuery] INFO : FINAL STATS count:1000 minTime:2391.0 maxTime:7296.0 avgTime:3202.6780000000012 stdevTime:426.543842958688 minResults:0.0 maxResults:1074.0 avgResults:269.5190000000001 stddevResults:242.8214485890709

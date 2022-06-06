@@ -108,7 +108,7 @@ public class ContinuousQuery {
 
       var grepStr = props.getProperty("test.ci.query.grep");
 
-      if (grepStr != null & !grepStr.isBlank()) {
+      if (grepStr != null && !grepStr.isBlank()) {
         grepIter = new IteratorSetting(100, GrepIterator.class);
         GrepIterator.setTerm(grepIter, grepStr);
       } else {

@@ -23,8 +23,8 @@ data:
     test.ci.common.accumulo.table=ci
     test.ci.ingest.row.min=0
     test.ci.ingest.row.max=9223372036854775807
-    test.ci.query.consistency=immediate
-    test.ci.query.row.min=733333333333333e
+    test.ci.query.consistency=eventual
+    test.ci.query.row.min=6000000000000009
     test.ci.query.row.max=79999999999999a5
     test.ci.query.prefix.len=4
     test.ci.query.threads=12
