@@ -87,6 +87,8 @@ Test | # Scan servers | #initial servers |   busy timeout | scan type | # concur
 [D819](tests/D819) | 23 | 1 | 33ms | eventual | 193 | 1509 | 391ms | 317ms | 20ms | 1669ms 
 [D820](tests/D820) | 23 | 23 | 33ms | eventual | 193 | 48 | 348ms | 311ms | 5ms | 1484ms
 
+For D821 since 5 tablets were scanned, all 3 tablet servers were used.  The reason the avg time for D821 is worse than D816 which only used a single tablet server is because the increase in data being scanned.  Would like to circle back and modify the scan test code to create ranges that scan consistent amounts of data for these two different scenarios.  This would make comparing multiple to single tablet tests possible.  Would be really nice to able to compare the times in the single and multi-tablet test.  
+
 With multiple tablets, each tablet will have a different set of initial scan servers which spreads the initial load more than when everything goes against a single tablet.  Test D819 has initial severs configured to 1, so each of the 5 tablets will hash to one of the 23 servers. If all 5 tablets hash to different servers, then the load on those 5 needs to reach a threshold where busy events occur. For this level of concurrency the 5 initial severs in test D819 reach that threshold sooner than the 5x3 initial severs in D818.  D819 compares well to D820 which is the best possible time.
 
 ## Small scan test
