@@ -26,10 +26,6 @@ compaction:
 %{ for ip in worker_ips ~}
         - ${ip}
 %{ endfor ~}
-    - q2:
-%{ for ip in worker_ips ~}
-        - ${ip}
-%{ endfor ~}
 
 #
 # The following are used by the accumulo-cluster script to determine how many servers
