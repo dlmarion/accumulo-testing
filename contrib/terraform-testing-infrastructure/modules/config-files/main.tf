@@ -212,6 +212,24 @@ resource "local_file" "initialize-accumulo" {
   content         = templatefile("${local.templates_dir}/initialize_accumulo.sh.tftpl", local.template_vars)
 }
 
+resource "local_file" "collectd" {
+  filename        = "${local.conf_dir}/collectd.conf"
+  file_permission = "644"
+  content         = templatefile("${local.templates_dir}/collectd.conf.tftpl", local.template_vars)
+}
+
+resource "local_file" "timely-env" {
+  filename        = "${local.conf_dir}/timely-server-env.sh"
+  file_permission = "644"
+  content         = templatefile("${local.templates_dir}/timely-server-env.sh.tftpl", local.template_vars)
+}
+
+resource "local_file" "grafana-ini" {
+  filename        = "${local.conf_dir}/grafana.ini"
+  file_permission = "644"
+  content         = templatefile("${local.templates_dir}/grafana.ini.tftpl", local.template_vars)
+}
+
 resource "null_resource" "upload_config_files" {
   depends_on = [
     local_file.etc-hosts,
@@ -233,7 +251,10 @@ resource "null_resource" "upload_config_files" {
     local_file.hadoop-bashrc,
     local_file.install-software,
     local_file.initialize-hadoop,
-    local_file.initialize-accumulo
+    local_file.initialize-accumulo,
+    local_file.collectd,
+    local_file.timely-env,
+    local_file.grafana-ini
   ]
   connection {
     type = "ssh"

@@ -154,6 +154,14 @@ else
 fi
 
 #
+# Build the timely-grafana Docker image
+#
+cd $SOURCES_DIR/accumulo-testing-repo/contrib/terraform-testing-infrastructure/timely-grafana
+./build-image.sh
+cd build_output/lib-accumulo
+cp timely*.jar ${software_root}/accumulo/accumulo-${accumulo_version}/lib/.
+
+#
 # Copy the configuration files to the correct places
 #
 cp ${software_root}/conf/zoo.cfg ${software_root}/zookeeper/apache-zookeeper-${zookeeper_version}-bin/conf/zoo.cfg
@@ -163,8 +171,6 @@ cp ${software_root}/conf/yarn-site.xml ${software_root}/hadoop/hadoop-${hadoop_v
 cp ${software_root}/conf/cluster.yaml ${software_root}/accumulo/accumulo-${accumulo_version}/conf/cluster.yaml
 cp ${software_root}/conf/accumulo.properties ${software_root}/accumulo/accumulo-${accumulo_version}/conf/accumulo.properties
 cp ${software_root}/conf/accumulo-client.properties ${software_root}/accumulo/accumulo-${accumulo_version}/conf/accumulo-client.properties
-mkdir -p ${software_root}/telegraf/conf
-cp ${software_root}/conf/telegraf.conf ${software_root}/telegraf/conf/.
 
 # Update configuration properties for accumulo-testing
 defaultFS=$(hdfs getconf -confKey fs.defaultFS)
@@ -174,10 +180,8 @@ sed -ri "s|^test.common.yarn.resource.manager=.*$|test.common.yarn.resource.mana
 #
 # Make directories that will be needed for metrics collection
 #
-sudo mkdir -p /data/metrics/influxdb
 sudo mkdir -p /data/metrics/grafana
 sudo chown -R hadoop.hadoop /data/metrics
-sudo chmod 777 /data/metrics/influxdb
 
 # Sync the software root dir to all of the worker nodes, but exclude accumulo source, maven, and conf dirs.
 echo "Sycing ${software_root} to worker nodes..."
