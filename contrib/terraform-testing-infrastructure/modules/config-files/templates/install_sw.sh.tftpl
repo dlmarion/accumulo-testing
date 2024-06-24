@@ -156,6 +156,15 @@ fi
 #
 # Build the timely-grafana Docker image
 #
+%{ if os_distro == "centos" || os_distro == "rhel" ~}
+sudo yum install -y docker-ce docker-ce-cli containerd.io --enablerepo=docker
+%{ endif ~}
+%{ if os_distro == "ubuntu" ~}
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+%{ endif ~}
+sudo systemctl enable docker
+sudo systemctl start docker
+
 cd $SOURCES_DIR/accumulo-testing-repo/contrib/terraform-testing-infrastructure/timely-grafana
 ./build-image.sh
 cd build_output/lib-accumulo
