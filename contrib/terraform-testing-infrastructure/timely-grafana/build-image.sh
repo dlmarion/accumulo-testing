@@ -24,5 +24,6 @@ docker build --build-arg uid=$(id -u ${USER}) --build-arg gid=$(id -g ${USER}) -
 rm -rf build_output
 mkdir build_output
 id=$(docker create timely-grafana)
+docker cp $id:/opt/timely/collectd-timely-plugin.jar build_output/.
 docker cp $id:/opt/timely/lib-accumulo build_output/.
 docker rm -v $id
