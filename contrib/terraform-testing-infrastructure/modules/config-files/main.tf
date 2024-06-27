@@ -212,10 +212,16 @@ resource "local_file" "initialize-accumulo" {
   content         = templatefile("${local.templates_dir}/initialize_accumulo.sh.tftpl", local.template_vars)
 }
 
-resource "local_file" "collectd" {
-  filename        = "${local.conf_dir}/collectd.conf"
+resource "local_file" "telegraf" {
+  filename        = "${local.conf_dir}/telegraf.conf"
   file_permission = "644"
-  content         = templatefile("${local.templates_dir}/collectd.conf.tftpl", local.template_vars)
+  content         = templatefile("${local.templates_dir}/telegraf.conf.tftpl", local.template_vars)
+}
+
+resource "local_file" "telegraf-repo" {
+  filename        = "${local.conf_dir}/telegraf.repo"
+  file_permission = "644"
+  content         = templatefile("${local.templates_dir}/telegraf.repo.tftpl", local.template_vars)
 }
 
 resource "local_file" "timely-env" {
@@ -252,7 +258,8 @@ resource "null_resource" "upload_config_files" {
     local_file.install-software,
     local_file.initialize-hadoop,
     local_file.initialize-accumulo,
-    local_file.collectd,
+    local_file.telegraf,
+    local_file.telegraf-repo,
     local_file.timely-env,
     local_file.grafana-ini
   ]

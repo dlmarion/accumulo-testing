@@ -154,6 +154,32 @@ else
 fi
 
 #
+# Install Telegraf
+# (doing this in cloud-init puts it over the size limit)
+#
+%{ if os_distro == "centos" || os_distro == "rhel" ~}
+sudo cp ${software_root}/conf/telegraf.repo /etc/yum.repos.d/.
+sudo yum clean all
+sudo yum install -y telegraf
+pdcp -g worker ${software_root}/conf/telegraf.repo /tmp/.
+pdsh -S -g worker sudo mv /tmp/telegraf.repo /etc/yum.repos.d/.
+pdsh -S -g worker sudo yum clean all
+pdsh -S -g worker sudo yum install -y telegraf
+%{ endif ~}
+%{ if os_distro == "ubuntu" ~}
+wget https://repos.influxdata.com/influxdata-archive.key
+echo '943666881a1b8d9b849b74caebf02d3465d6beb716510d86a39f6c8e8dac7515 influxdata-archive.key' | sha256sum -c && cat influxdata-archive.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdata-archive.gpg > /dev/null
+echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main' | sudo tee /etc/apt/sources.list.d/influxdata.list
+sudo apt-get install telegraf
+pdcp -g worker /etc/apt/trusted.gpg.d/influxdata-archive.gpg /tmp/.
+pdcp -g worker /etc/apt/sources.list.d/influxdata.list /tmp/.
+pdsh -S -g worker sudo mv /tmp/influxdata-archive.gpg  /etc/apt/trusted.gpg.d/influxdata-archive.gpg
+pdsh -S -g worker sudo mv /tmp/influxdata.list /etc/apt/sources.list.d/influxdata.list
+pdsh -S -g worker sudo apt-get install telegraf
+%{ endif ~}
+
+
+#
 # Build the timely-grafana Docker image
 #
 %{ if os_distro == "centos" || os_distro == "rhel" ~}
@@ -167,8 +193,7 @@ sudo systemctl start docker
 
 cd $SOURCES_DIR/accumulo-testing-repo/contrib/terraform-testing-infrastructure/timely-grafana
 ./build-image.sh
-cd build_output/lib-accumulo
-cp timely*.jar ${software_root}/accumulo/accumulo-${accumulo_version}/lib/.
+cp build_output/lib-accumulo/timely*.jar ${software_root}/accumulo/accumulo-${accumulo_version}/lib/.
 
 #
 # Copy the configuration files to the correct places

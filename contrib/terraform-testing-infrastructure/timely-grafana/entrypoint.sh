@@ -22,10 +22,6 @@
 ## Start Timely
 /opt/timely/bin/start-all.sh
 
-# Start CollectD
-export LD_PRELOAD=/usr/lib/jvm/java-11-openjdk/lib/server/libjvm.so
-/usr/sbin/collectd
-
 # Start Grafana
 GRAFANA_USER=grafana 
 GRAFANA_GROUP=grafana

@@ -26,6 +26,18 @@ if [ $# -ne 2 ]; then
 fi
 
 #
+# Start Telegraf on all nodes
+#
+sudo cp ${software_root}/conf/telegraf.conf /etc/telegraf/telegraf.conf
+sudo systemctl enable telegraf
+sudo systemctl start telegraf
+
+pdcp -g worker ${software_root}/conf/telegraf.conf /tmp/.
+pdsh -S -g worker "sudo cp /tmp/telegraf.conf /etc/telegraf/telegraf.conf && rm -f /tmp/telegraf.conf"
+pdsh -S -g worker sudo systemctl enable telegraf
+pdsh -S -g worker sudo systemctl start telegraf
+
+#
 # Initialize Accumulo with the supplied instance name and root user password
 #
 accumulo init --instance-name "$1" --password "$2"
@@ -40,7 +52,7 @@ docker run -d --name jaeger \
     -p 6832:6832/udp -p 5778:5778 \
     -p 16686:16686 -p 14268:14268 \
     -p 14250:14250 -p 9411:9411 \
-    jaegertracing/all-in-one:1.29
+    artifactory.adv.evoforge.org/docker-remote/jaegertracing/all-in-one:1.29
 
 docker run -d --net="host" \
 	-v ${software_root}/conf/grafana.ini:/etc/grafana/grafana.ini:ro \

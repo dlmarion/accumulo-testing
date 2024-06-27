@@ -1,12 +1,11 @@
-# CollectD-Timely-Grafana Stack
+# Timely-Grafana Stack
 
 This Docker image is designed to communicate with a locally running Apache Accumulo
 instance for Grafana dashboard development purposes. This Docker image contains
-CollectD, Timely, and Grafana configured such that CollectD is listening on port
-8125 for StatsD messages that are forwarded to Timely which are then stored in
-Accumulo. Grafana is available on port 3000 and it will query Timely for timeseries
-metrics thar are stored in tables in Accumulo.
-
+Timely and Grafana and is configured to connect to the host network which will make
+all Timely and Grafana ports available. An agent, like Telegraf, can be used to
+get metrics from the Accumulo processes in a StatsD format and send them to Timely
+using the OpenTSDB output plugin.
 
 ## Deployment
 
@@ -25,5 +24,5 @@ general.micrometer.factory=org.apache.accumulo.test.metrics.TestStatsDRegistryFa
   "-Dtest.meter.registry.port=8125"
 ```
 5. Start ZooKeeper, Hadoop, and Accumulo
-6. Execute `run-container.sh` to start CollectD, Timely, and Grafana
+6. Execute `run-container.sh` to start Timely and Grafana
 
