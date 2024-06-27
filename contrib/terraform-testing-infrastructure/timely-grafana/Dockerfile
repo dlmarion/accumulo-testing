@@ -61,5 +61,5 @@ RUN dnf install -y java-11-openjdk-devel && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 COPY entrypoint.sh /opt/entrypoint.sh
-EXPOSE 3000 4242 4245 8125
+EXPOSE 3000/tcp 4242/tcp 4243/tcp 4244/tcp 4245/udp
 ENTRYPOINT ["/opt/entrypoint.sh"]
