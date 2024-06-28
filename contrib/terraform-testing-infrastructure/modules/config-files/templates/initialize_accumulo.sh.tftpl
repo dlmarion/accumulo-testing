@@ -54,13 +54,22 @@ docker run -d --name jaeger \
     -p 14250:14250 -p 9411:9411 \
     artifactory.adv.evoforge.org/docker-remote/jaegertracing/all-in-one:1.29
 
-docker run -d --net="host" \
-	-v ${software_root}/conf/grafana.ini:/etc/grafana/grafana.ini:ro \
-	-v ${software_root}/conf/timely-server-env.sh:/opt/timely/bin/timely-server-env.sh:ro \
-        --name="timely-grafana-stack" timely-grafana
-
 #
 # Start the Accumulo cluster
 # accumulo-cluster start doesn't return a proper error code, so make it true here so the script doesn't fail.
 #
 accumulo-cluster start || true
+
+#
+# Start Timely
+#
+docker run -d \
+    -p 3000:3000/tcp \
+    -p 4242:4242/tcp \
+    -p 4243:4243/tcp \
+    -p 4244:4244/tcp \
+    -p 4245:4245/udp \
+    -v /opt/accumulo-testing/conf/grafana.ini:/etc/grafana/grafana.ini:ro \
+    -v /opt/accumulo-testing/conf/timely-server-env.sh:/opt/timely/bin/timely-server-env.sh:ro \
+    --name="timely-grafana-stack" timely-grafana
+
