@@ -52,7 +52,7 @@ docker run -d --name jaeger \
     -p 6832:6832/udp -p 5778:5778 \
     -p 16686:16686 -p 14268:14268 \
     -p 14250:14250 -p 9411:9411 \
-    artifactory.adv.evoforge.org/docker-remote/jaegertracing/all-in-one:1.29
+    jaegertracing/all-in-one:1.29
 
 #
 # Start the Accumulo cluster
@@ -69,7 +69,9 @@ docker run -d \
     -p 4243:4243/tcp \
     -p 4244:4244/tcp \
     -p 4245:4245/udp \
-    -v /opt/accumulo-testing/conf/grafana.ini:/etc/grafana/grafana.ini:ro \
-    -v /opt/accumulo-testing/conf/timely-server-env.sh:/opt/timely/bin/timely-server-env.sh:ro \
+    -v ${software_root}/conf/grafana.ini:/etc/grafana/grafana.ini:ro \
+    -v ${software_root}/grafana/dashboards:/etc/grafana/provisioning/dashboards \
+    -v ${software_root}/conf/timely.yaml:/etc/grafana/provisioning/datasources/timely.yaml \
+    -v ${software_root}/conf/timely-server-env.sh:/opt/timely/bin/timely-server-env.sh:ro \
     --name="timely-grafana-stack" timely-grafana
 

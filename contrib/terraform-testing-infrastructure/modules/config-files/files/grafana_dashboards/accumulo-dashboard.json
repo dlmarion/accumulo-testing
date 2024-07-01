@@ -8,16 +8,282 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
+  "iteration": 1719607444669,
   "links": [],
+  "liveNow": false,
   "panels": [
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 28,
+      "panels": [],
+      "title": "Instance Summary",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 7,
+        "x": 0,
+        "y": 1
+      },
+      "id": 36,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.7",
+      "targets": [
+        {
+          "aggregator": "none",
+          "alias": "[[tag_process.name]]",
+          "disableDownsampling": false,
+          "downsampleAggregator": "count",
+          "downsampleFillPolicy": "none",
+          "downsampleInterval": "10s",
+          "isCounter": false,
+          "metric": "jvm_classes_loaded_value",
+          "queryType": "metricQuery",
+          "refId": "A",
+          "shouldComputeRate": false,
+          "tags": {
+            "process.name": ".*"
+          }
+        }
+      ],
+      "title": "Process Counts",
+      "type": "bargauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 7,
+        "y": 1
+      },
+      "id": 44,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "aggregator": "none",
+          "alias": "",
+          "disableDownsampling": false,
+          "downsampleAggregator": "avg",
+          "downsampleFillPolicy": "none",
+          "downsampleInterval": "1s",
+          "isCounter": false,
+          "metric": "accumulo_tserver_ingest_mutations_value",
+          "queryType": "metricQuery",
+          "refId": "A",
+          "shouldComputeRate": true,
+          "tags": {}
+        }
+      ],
+      "title": "Ingest Entries",
+      "type": "timeseries"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 15,
+        "y": 1
+      },
+      "id": 45,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "aggregator": "none",
+          "alias": "",
+          "disableDownsampling": false,
+          "downsampleAggregator": "avg",
+          "downsampleFillPolicy": "none",
+          "downsampleInterval": "1s",
+          "isCounter": false,
+          "metric": "accumulo_scan_query_scanned_entries_value",
+          "queryType": "metricQuery",
+          "refId": "A",
+          "shouldComputeRate": true,
+          "tags": {}
+        }
+      ],
+      "title": "Scan Entries / second",
+      "type": "timeseries"
+    },
     {
       "collapsed": false,
       "datasource": null,
@@ -25,7 +291,90 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 7
+      },
+      "id": 32,
+      "panels": [],
+      "repeat": "resource_group_var",
+      "title": "Resource Group $resource_group_var Summary",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "[[tag_process.name]]",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 7,
+        "x": 0,
+        "y": 8
+      },
+      "id": 42,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.7",
+      "targets": [
+        {
+          "aggregator": "none",
+          "alias": "[[tag_process.name]]",
+          "disableDownsampling": false,
+          "downsampleAggregator": "count",
+          "downsampleFillPolicy": "none",
+          "downsampleInterval": "10s",
+          "isCounter": false,
+          "metric": "jvm_classes_loaded_value",
+          "queryType": "metricQuery",
+          "refId": "A",
+          "shouldComputeRate": false,
+          "tags": {
+            "process.name": ".*",
+            "resource.group": "accumulo_meta"
+          }
+        }
+      ],
+      "title": "Process Counts",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 27
       },
       "id": 20,
       "panels": [],
@@ -37,21 +386,15 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB",
+      "datasource": null,
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 0,
-        "y": 1
+        "y": 28
       },
       "hiddenSeries": false,
       "id": 2,
@@ -71,7 +414,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -81,7 +424,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "",
+          "aggregator": "none",
+          "alias": "[[tag_process.name]]",
+          "disableDownsampling": false,
+          "downsampleAggregator": "avg",
+          "downsampleFillPolicy": "none",
+          "downsampleInterval": "1m",
           "groupBy": [
             {
               "params": [
@@ -102,7 +450,9 @@
               "type": "fill"
             }
           ],
+          "isCounter": false,
           "measurement": "accumulo_thrift_execute",
+          "metric": "accumulo_thrift_execute_100_percentile",
           "orderByTime": "ASC",
           "policy": "default",
           "queryType": "randomWalk",
@@ -122,7 +472,10 @@
               }
             ]
           ],
-          "tags": []
+          "shouldComputeRate": false,
+          "tags": {
+            "process.name": ".*"
+          }
         }
       ],
       "thresholds": [],
@@ -173,19 +526,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 6,
         "x": 5,
-        "y": 1
+        "y": 28
       },
       "hiddenSeries": false,
       "id": 4,
@@ -205,7 +552,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -305,19 +652,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 6,
         "x": 11,
-        "y": 1
+        "y": 28
       },
       "hiddenSeries": false,
       "id": 6,
@@ -337,7 +678,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -468,19 +809,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 6,
         "x": 17,
-        "y": 1
+        "y": 28
       },
       "hiddenSeries": false,
       "id": 7,
@@ -500,7 +835,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -631,21 +966,15 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB",
+      "datasource": null,
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 0,
-        "y": 9
+        "y": 36
       },
       "hiddenSeries": false,
       "id": 21,
@@ -665,7 +994,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -675,7 +1004,12 @@
       "steppedLine": false,
       "targets": [
         {
+          "aggregator": "none",
           "alias": "",
+          "disableDownsampling": false,
+          "downsampleAggregator": "avg",
+          "downsampleFillPolicy": "none",
+          "downsampleInterval": "1m",
           "groupBy": [
             {
               "params": [
@@ -696,7 +1030,9 @@
               "type": "fill"
             }
           ],
+          "isCounter": false,
           "measurement": "accumulo_tserver_ingest_mutations",
+          "metric": "accumulo_tserver_ingest_mutations_value",
           "orderByTime": "ASC",
           "policy": "default",
           "queryType": "randomWalk",
@@ -722,7 +1058,10 @@
               }
             ]
           ],
-          "tags": []
+          "shouldComputeRate": true,
+          "tags": {
+            "host": ".*"
+          }
         }
       ],
       "thresholds": [],
@@ -773,19 +1112,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 5,
-        "y": 9
+        "y": 36
       },
       "hiddenSeries": false,
       "id": 22,
@@ -805,7 +1138,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -913,19 +1246,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 10,
-        "y": 9
+        "y": 36
       },
       "hiddenSeries": false,
       "id": 23,
@@ -945,7 +1272,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1053,19 +1380,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 15,
-        "y": 9
+        "y": 36
       },
       "hiddenSeries": false,
       "id": 24,
@@ -1085,7 +1406,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1193,19 +1514,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 0,
-        "y": 17
+        "y": 44
       },
       "hiddenSeries": false,
       "id": 25,
@@ -1225,7 +1540,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1333,19 +1648,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 5,
         "x": 5,
-        "y": 17
+        "y": 44
       },
       "hiddenSeries": false,
       "id": 26,
@@ -1365,7 +1674,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1473,7 +1782,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 52
       },
       "id": 12,
       "panels": [],
@@ -1486,19 +1795,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 5,
         "x": 0,
-        "y": 26
+        "y": 53
       },
       "hiddenSeries": false,
       "id": 9,
@@ -1518,7 +1821,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1612,19 +1915,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 6,
         "x": 5,
-        "y": 26
+        "y": 53
       },
       "hiddenSeries": false,
       "id": 10,
@@ -1644,7 +1941,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1739,19 +2036,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 6,
         "x": 11,
-        "y": 26
+        "y": 53
       },
       "hiddenSeries": false,
       "id": 14,
@@ -1771,7 +2062,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1866,19 +2157,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 6,
         "x": 17,
-        "y": 26
+        "y": 53
       },
       "hiddenSeries": false,
       "id": 15,
@@ -1898,7 +2183,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1992,19 +2277,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 5,
         "x": 0,
-        "y": 33
+        "y": 60
       },
       "hiddenSeries": false,
       "id": 13,
@@ -2024,7 +2303,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2118,19 +2397,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 5,
-        "y": 33
+        "y": 60
       },
       "hiddenSeries": false,
       "id": 16,
@@ -2150,7 +2423,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2245,19 +2518,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 11,
-        "y": 33
+        "y": 60
       },
       "hiddenSeries": false,
       "id": 17,
@@ -2277,7 +2544,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2372,19 +2639,13 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 17,
-        "y": 33
+        "y": 60
       },
       "hiddenSeries": false,
       "id": 18,
@@ -2404,7 +2665,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "8.2.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2493,12 +2754,41 @@
       }
     }
   ],
-  "refresh": "1m",
-  "schemaVersion": 26,
+  "refresh": "",
+  "schemaVersion": 32,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": null,
+        "definition": "tag_values(jvm_classes_loaded_value, resource.group)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": "Resource Group",
+        "multi": true,
+        "name": "resource_group_var",
+        "options": [],
+        "query": "tag_values(jvm_classes_loaded_value, resource.group)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-15m",
@@ -2508,5 +2798,5 @@
   "timezone": "",
   "title": "Accumulo Micrometer Test Dashboard",
   "uid": "0govCeDnk",
-  "version": 8
+  "version": 13
 }

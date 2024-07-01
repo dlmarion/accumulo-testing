@@ -236,6 +236,12 @@ resource "local_file" "grafana-ini" {
   content         = templatefile("${local.templates_dir}/grafana.ini.tftpl", local.template_vars)
 }
 
+resource "local_file" "timely-yaml" {
+  filename        = "${local.conf_dir}/timely.yaml"
+  file_permission = "644"
+  content         = templatefile("${local.templates_dir}/timely.yaml.tftpl", local.template_vars)
+}
+
 resource "null_resource" "upload_config_files" {
   depends_on = [
     local_file.etc-hosts,
@@ -261,7 +267,8 @@ resource "null_resource" "upload_config_files" {
     local_file.telegraf,
     local_file.telegraf-repo,
     local_file.timely-env,
-    local_file.grafana-ini
+    local_file.grafana-ini,
+    local_file.timely-yaml
   ]
   connection {
     type = "ssh"
